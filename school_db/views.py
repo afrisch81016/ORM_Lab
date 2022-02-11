@@ -1,3 +1,4 @@
+from itertools import count
 from django.shortcuts import render
 from django.db.models import Count
 from django.core.exceptions import ObjectDoesNotExist
@@ -59,7 +60,7 @@ SELECT `school_db_student`.`id`,
 # Print out each student's full name and gpa to the terminal
 def problem_one(request):
   student_gpa = Student.objects.filter(gpa__gte = 3.0).order_by('-gpa')
-  
+  print(f'')
 
   return complete(request)
 
@@ -140,18 +141,17 @@ SELECT `school_db_instructor`.`id`,
 # Print the instructors name and courses that he belongs to in the terminal 
 # (Do not hard code his name in the print)
 def problem_three(request):
-  instructor_courses = Instructor.objects.get(pk=2)
-  course_taught = Course.objects.filter(instructor_id=2)
-    
-  for instructor in instructor_courses:
-    print(f'First Name: {instructor.first_name} Last Name: {instructor.last_name} and this is what is taught {course_taught.name}')
+  
+  instructor_courses = Instructor.objects.filter(id=2)
+  course_taught = Course.objects.filter()
+
+  for instructors in instructor_courses:
+    print(f'First Name: {instructors.first_name} Last Name: {instructors.last_name}')
+  for course in course_taught:
+    print (f'This is the courses taught by that teacher {course.name} and {course.name}')
 
 
-    
-    
-
-
-    return complete(request)
+  return complete(request)
 
 
 # Supporting Query Method Documentation:
@@ -196,10 +196,14 @@ SELECT `school_db_instructor`.`id`,
 
 # Get the count of students, courses, and instructors and print them in the terminal
 def problem_four(request):
+  course_numbers= Course.objects.count()
+  student_numbers= Student.objects.count()
+  instructor_numbers= Instructor.objects.count()
+  print(course_numbers, student_numbers, instructor_numbers)
 
 
 
-    return complete(request)
+  return complete(request)
 
 
 # Supporting Query Method Documentation:
@@ -242,10 +246,18 @@ SELECT COUNT(*) AS `__count`
 # Print the new student's id, full name, year, and gpa to the terminal
 # NOTE every time you execute this function a duplicate student will be created with a different primary key number
 def problem_five(request):
+  student = Student()
+  student.first_name = 'Adam'
+  student.last_name = 'Frisch'
+  student.year = '2007'
+  student.gpa = '2.5'
+  student.id = (11)
+  student.save
+
+  print(f'Welcome our new student {student.first_name} {student.last_name}, his new id is {student.id} he graduated in {student.year} and his gpa is {student.gpa}. I know right, be jealous!')
 
 
-
-    return complete(request)
+  return complete(request)
 
 
 # Supporting Query Method Documentation:
